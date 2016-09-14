@@ -2,44 +2,52 @@ package edu.oakland.cse337.gui;
 
 import edu.oakland.cse337.Hangman;
 import java.awt.*;
+import java.awt.event.*;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
 
 /**
- *
- * @author Dean
+ * @author Dean DeHart
+ * 16/09/09 Due 16/09/14
+ * CSE337 Hangman Prerequisite Assignment
+ * For updates see: github.com/Deanout/Hangman
  */
 public class HangmanGUI extends javax.swing.JFrame {
-    
+    private String startGame = "Start Game";
+    private String stopGame = "Stop Game";
+    private boolean gameRunning = false;
     /**
      * Creates new form HangmanGUI
      */
     public HangmanGUI() {
         initComponents();
         this.setLocationRelativeTo(null);
+        try {
+            this.initGameState(false);
+        } catch (Exception e) {
+            System.out.println("Something went wrong. \nHave you tried turning it off and back on again?");
+        }
         this.setVisible(true);
-    }   
-    
-    public void setDisplayText(String input) {
-        DisplayText.setText(input);
     }
-    
     public void initGameState(boolean condition) throws IOException {
         for (Component button : jPanelKeyboard.getComponents()) {
             if (button instanceof JButton) {
-                ((JButton)button).setEnabled(condition);
+                ((JButton) button).setEnabled(condition);
+            } else {
+                // Do nothing.
             }
         }
     }
     
+    public void setDisplayText(String input) {
+        DisplayText.setText(input);
+    }    
+    
     public void setGuessCounterLabel(String input) {
         labelCounter.setText(input);
     }
-    
-    
-    // Generated Code Begins Here
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -640,28 +648,28 @@ public class HangmanGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonAActionPerformed
 
     private void buttonStartEndGameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonStartEndGameActionPerformed
-        // TODO add your handling code here:
-        if (buttonStartEndGame.getText().equals("Start Game")) {
-            buttonStartEndGame.setText("Stop Game");
-            try {
-                initGameState(true);
-            } catch (IOException ex) {
-                Logger.getLogger(HangmanGUI.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            Hangman.controller.newGame();
-        } else {
-            buttonStartEndGame.setText("Start Game");
+        if (gameRunning) {
+            buttonStartEndGame.setText(startGame);
             try {
                 initGameState(false);
             } catch (IOException ex) {
                 Logger.getLogger(HangmanGUI.class.getName()).log(Level.SEVERE, null, ex);
             }
+            gameRunning = false;
             Hangman.controller.initializeDisplayText();
+        } else {
+            buttonStartEndGame.setText(stopGame);
+            try {
+                initGameState(true);
+            } catch (IOException ex) {
+                Logger.getLogger(HangmanGUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            gameRunning = true;
+            Hangman.controller.newGame();
         }
     }//GEN-LAST:event_buttonStartEndGameActionPerformed
 
     private void buttonQuitGameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonQuitGameActionPerformed
-        // TODO add your handling code here:
         System.exit(0);
     }//GEN-LAST:event_buttonQuitGameActionPerformed
 
@@ -690,32 +698,26 @@ public class HangmanGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonXActionPerformed
 
     private void buttonEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEActionPerformed
-        // TODO add your handling code here:
         Hangman.controller.userGuess('e');
     }//GEN-LAST:event_buttonEActionPerformed
 
     private void buttonOActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonOActionPerformed
-        // TODO add your handling code here:
         Hangman.controller.userGuess('o');
     }//GEN-LAST:event_buttonOActionPerformed
 
     private void buttonFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonFActionPerformed
-        // TODO add your handling code here:
         Hangman.controller.userGuess('f');
     }//GEN-LAST:event_buttonFActionPerformed
 
     private void buttonKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonKActionPerformed
-        // TODO add your handling code here:
         Hangman.controller.userGuess('k');
     }//GEN-LAST:event_buttonKActionPerformed
 
     private void buttonLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonLActionPerformed
-        // TODO add your handling code here:
         Hangman.controller.userGuess('l');
     }//GEN-LAST:event_buttonLActionPerformed
 
     private void buttonMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonMActionPerformed
-        // TODO add your handling code here:
         Hangman.controller.userGuess('m');
     }//GEN-LAST:event_buttonMActionPerformed
 

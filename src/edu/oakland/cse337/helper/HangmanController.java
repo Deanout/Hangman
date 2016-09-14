@@ -8,7 +8,10 @@ import java.util.logging.*;
 import java.util.stream.Stream;
 
 /**
- * @author Dean
+ * @author Dean DeHart
+ * 16/09/09 Due 16/09/14
+ * CSE337 Hangman Prerequisite Assignment
+ * For updates see: github.com/Deanout/Hangman
  */
 public class HangmanController {
     // String that contains the word to be guessed.
@@ -17,9 +20,8 @@ public class HangmanController {
     private char[] display;
     // Initializes a GUI object but does not instantiate it.
     private final HangmanGUI gui;
-    // PRNG used to select random word from wordlist.txt
     private final Random rand = new Random();
-    // Keeps the stream open until a word < 16 letters long is found.
+    // Keeps the stream open until a word < 16 char long is found.
     private boolean eligibleWordFound = true;
     // Integer that keeps track of the number of guesses.
     private int guessCounter;
@@ -28,6 +30,7 @@ public class HangmanController {
     public HangmanController(HangmanGUI inputGUI) {
         this.gui = inputGUI;
         initializeDisplayText();
+        
     }
     // Retrieves a word to be guessed by the user. The requirements for the
     // word are only that it be less than 16 characters long.
@@ -40,7 +43,7 @@ public class HangmanController {
                 answer = lines.skip(randomNum).findFirst().get();
             } 
             // Checks if the chosen word is less than 16 characters. If so,
-            // The loop will terminate.
+            // the loop will terminate.
             if (answer.length() < 16) {
                 eligibleWordFound = false;
             } else {
@@ -73,7 +76,8 @@ public class HangmanController {
         // Updates the corresponding label.
         gui.setGuessCounterLabel(guessCounter + " tries");
     }
-    
+    // Called to initialize the display to all X's. This is used whenever the game
+    // is in a 'stop' state, such as when the game is first started.
     public void initializeDisplayText() {
         display = new char[15];
         for (int i = 0; i < display.length; i++) {

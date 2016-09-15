@@ -2,7 +2,6 @@ package edu.oakland.cse337.gui;
 
 import edu.oakland.cse337.Hangman;
 import java.awt.*;
-import java.awt.event.*;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -13,6 +12,8 @@ import javax.swing.*;
  * 16/09/09 Due 16/09/14
  * CSE337 Hangman Prerequisite Assignment
  * For updates see: github.com/Deanout/Hangman
+ * 
+ * Generated code ends around line 600, then on-clicks are handled.
  */
 public class HangmanGUI extends javax.swing.JFrame {
     private String startGame = "Start Game";
@@ -23,6 +24,7 @@ public class HangmanGUI extends javax.swing.JFrame {
      */
     public HangmanGUI() {
         initComponents();
+        
         this.setLocationRelativeTo(null);
         try {
             this.initGameState(false);
@@ -30,7 +32,12 @@ public class HangmanGUI extends javax.swing.JFrame {
             System.out.println("Something went wrong. \nHave you tried turning it off and back on again?");
         }
         this.setVisible(true);
+        
+        
     }
+    /* Used to toggle the active state of the keyboard.
+     * @param condition Takes a boolean to toggle whether the keyboard is enabled or disabled.
+     */
     public void initGameState(boolean condition) throws IOException {
         for (Component button : jPanelKeyboard.getComponents()) {
             if (button instanceof JButton) {
@@ -39,12 +46,13 @@ public class HangmanGUI extends javax.swing.JFrame {
                 // Do nothing.
             }
         }
+        Hangman.controller.resetCounter();
     }
-    
+    // Setter method for the display text.
     public void setDisplayText(String input) {
         DisplayText.setText(input);
     }    
-    
+    // Setter method for the user guess counter.
     public void setGuessCounterLabel(String input) {
         labelCounter.setText(input);
     }
@@ -646,7 +654,9 @@ public class HangmanGUI extends javax.swing.JFrame {
     private void buttonAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAActionPerformed
         Hangman.controller.userGuess('a');
     }//GEN-LAST:event_buttonAActionPerformed
-
+    /* On click, enables the keyboard and initializes the display text.
+     * If the game is already running on click, ends game and disables keyboard.
+     */
     private void buttonStartEndGameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonStartEndGameActionPerformed
         if (gameRunning) {
             buttonStartEndGame.setText(startGame);

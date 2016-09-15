@@ -83,35 +83,43 @@ public class HangmanController {
         for (int i = 0; i < display.length; i++) {
             display[i] = 'X';
         }
-        gui.setDisplayText(updateDisplayText(display));
+        updateDisplayText(display);
     }
-    
+    // Called whenever the Start Game button is pressed.
+    // Initializes the display text to underscores.
     public void newGame() {
         try {
             generateWord();
         } catch (IOException ex) {
             Logger.getLogger(HangmanController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        // Sets the display array to be the same length as the chosen word.
         display = new char[answer.length()];
         for (int i = 0; i < display.length; i++) {
             display[i] = '_';
         }
-        gui.setDisplayText(updateDisplayText(display));
+        updateDisplayText(display);
     }
-    
-    public String updateDisplayText(char[] input) {
+    /* Called whenever the display text is updated. This is where the spaces are
+     * added to the array in order to improve quality of life for the user.
+     * @note Previously returned a string.
+     */
+    public void updateDisplayText(char[] input) {
         char[] constructedInput = new char[input.length * 2];
-
         for (int i = 0; i < constructedInput.length; i += 2) {
             constructedInput[i] = input[i / 2];
             constructedInput[i + 1] = ' ';
         }
         String text = new String(constructedInput);
         gui.setDisplayText(text);
-        return text;
     }    
-    
+    // Called whenever the user attempts a letter.
     public void incrementGuessCounter() {
         guessCounter += 1;
+    }
+    // Resets the guess counter.
+    public void resetCounter() {
+        guessCounter = 0;
+        gui.setGuessCounterLabel(Integer.toString(guessCounter) + " tries");
     }
 }

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package edu.oakland.cse337.gui;
 
 import edu.oakland.cse337.Hangman;
@@ -89,8 +84,11 @@ public class HangmanGUI extends javax.swing.JFrame {
         jPanelGuessArea = new javax.swing.JPanel();
         DisplayText = new javax.swing.JLabel();
         jPanelStartQuitButtons = new javax.swing.JPanel();
-        jButton27 = new javax.swing.JButton();
-        jButton28 = new javax.swing.JButton();
+        buttonStartEndGame = new javax.swing.JButton();
+        buttonQuitGame = new javax.swing.JButton();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -496,20 +494,20 @@ public class HangmanGUI extends javax.swing.JFrame {
             jPanelGuessAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelGuessAreaLayout.createSequentialGroup()
                 .addComponent(DisplayText, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 14, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        jButton27.setText("Start Game");
-        jButton27.addActionListener(new java.awt.event.ActionListener() {
+        buttonStartEndGame.setText("Start Game");
+        buttonStartEndGame.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton27ActionPerformed(evt);
+                buttonStartEndGameActionPerformed(evt);
             }
         });
 
-        jButton28.setText("Quit");
-        jButton28.addActionListener(new java.awt.event.ActionListener() {
+        buttonQuitGame.setText("Quit");
+        buttonQuitGame.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton28ActionPerformed(evt);
+                buttonQuitGameActionPerformed(evt);
             }
         });
 
@@ -519,9 +517,9 @@ public class HangmanGUI extends javax.swing.JFrame {
             jPanelStartQuitButtonsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelStartQuitButtonsLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton27, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(buttonStartEndGame, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 859, Short.MAX_VALUE)
-                .addComponent(jButton28, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(buttonQuitGame, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18))
         );
         jPanelStartQuitButtonsLayout.setVerticalGroup(
@@ -529,17 +527,25 @@ public class HangmanGUI extends javax.swing.JFrame {
             .addGroup(jPanelStartQuitButtonsLayout.createSequentialGroup()
                 .addGap(24, 24, 24)
                 .addGroup(jPanelStartQuitButtonsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton27, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton28, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(buttonStartEndGame, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(buttonQuitGame, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(26, Short.MAX_VALUE))
         );
+
+        jMenu1.setText("File");
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("Help");
+        jMenuBar1.add(jMenu2);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(48, 48, 48)
+                .addGap(116, 116, 116)
                 .addComponent(jPanelGuessCounter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanelTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -633,10 +639,10 @@ public class HangmanGUI extends javax.swing.JFrame {
         Hangman.controller.userGuess('a');
     }//GEN-LAST:event_buttonAActionPerformed
 
-    private void jButton27ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton27ActionPerformed
+    private void buttonStartEndGameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonStartEndGameActionPerformed
         // TODO add your handling code here:
-        if (jButton27.getText().equals("Start Game")) {
-            jButton27.setText("Stop Game");
+        if (buttonStartEndGame.getText().equals("Start Game")) {
+            buttonStartEndGame.setText("Stop Game");
             try {
                 initGameState(true);
             } catch (IOException ex) {
@@ -644,7 +650,7 @@ public class HangmanGUI extends javax.swing.JFrame {
             }
             Hangman.controller.newGame();
         } else {
-            jButton27.setText("Start Game");
+            buttonStartEndGame.setText("Start Game");
             try {
                 initGameState(false);
             } catch (IOException ex) {
@@ -652,12 +658,12 @@ public class HangmanGUI extends javax.swing.JFrame {
             }
             Hangman.controller.initializeDisplayText();
         }
-    }//GEN-LAST:event_jButton27ActionPerformed
+    }//GEN-LAST:event_buttonStartEndGameActionPerformed
 
-    private void jButton28ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton28ActionPerformed
+    private void buttonQuitGameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonQuitGameActionPerformed
         // TODO add your handling code here:
         System.exit(0);
-    }//GEN-LAST:event_jButton28ActionPerformed
+    }//GEN-LAST:event_buttonQuitGameActionPerformed
 
     private void buttonBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonBActionPerformed
         Hangman.controller.userGuess('b');
@@ -733,8 +739,10 @@ public class HangmanGUI extends javax.swing.JFrame {
     private javax.swing.JButton buttonO;
     private javax.swing.JButton buttonP;
     private javax.swing.JButton buttonQ;
+    private javax.swing.JButton buttonQuitGame;
     private javax.swing.JButton buttonR;
     private javax.swing.JButton buttonS;
+    private javax.swing.JButton buttonStartEndGame;
     private javax.swing.JButton buttonT;
     private javax.swing.JButton buttonU;
     private javax.swing.JButton buttonV;
@@ -742,9 +750,10 @@ public class HangmanGUI extends javax.swing.JFrame {
     private javax.swing.JButton buttonX;
     private javax.swing.JButton buttonY;
     private javax.swing.JButton buttonZ;
-    private javax.swing.JButton jButton27;
-    private javax.swing.JButton jButton28;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanelGuessArea;
     private javax.swing.JPanel jPanelGuessCounter;
     private javax.swing.JPanel jPanelKeyboard;

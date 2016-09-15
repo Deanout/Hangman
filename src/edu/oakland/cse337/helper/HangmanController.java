@@ -1,63 +1,76 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package edu.oakland.cse337.helper;
 
 import edu.oakland.cse337.gui.*;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.*;
 import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.logging.*;
 import java.util.stream.Stream;
 
 /**
  * @author Dean
  */
 public class HangmanController {
+    // String that contains the word to be guessed.
     private String answer;
+    // Char array that is generated from the answer string
     private char[] display;
+    // Initializes a GUI object but does not instantiate it.
     private final HangmanGUI gui;
-    private Random rand = new Random();
-    private boolean condition = true;
-    private String desiredWord;
+    // PRNG used to select random word from wordlist.txt
+    private final Random rand = new Random();
+    // Keeps the stream open until a word < 16 letters long is found.
+    private boolean eligibleWordFound = true;
+    // Integer that keeps track of the number of guesses.
     private int guessCounter;
     
-    public void generateWord() throws IOException {
-        
-        while (condition) {
-            int randomNum = rand.nextInt(109563 + 1);
-            
-            try (Stream<String> lines = Files.lines(Paths.get("wordlist.txt"))) {
-                desiredWord = lines.skip(randomNum).findFirst().get();
-            }
-            if (desiredWord.length() < 16) {
-                condition = false;
-            } else {
-                
-            }
-        }
-        answer = desiredWord;
-        condition = true;
-    }
-    
+    // Class constructor
     public HangmanController(HangmanGUI inputGUI) {
         this.gui = inputGUI;
         initializeDisplayText();
     }
-            
-    public void userGuess(char input) {
+    // Retrieves a word to be guessed by the user. The requirements for the
+    // word are only that it be less than 16 characters long.
+    public void generateWord() throws IOException {
         
+        while (eligibleWordFound) {
+            int randomNum = rand.nextInt(109563 + 1);
+            // Stream that finds the randomNum'th line and gets that word.
+            try (Stream<String> lines = Files.lines(Paths.get("wordlist.txt"))) {
+                answer = lines.skip(randomNum).findFirst().get();
+            } 
+            // Checks if the chosen word is less than 16 characters. If so,
+            // The loop will terminate.
+            if (answer.length() < 16) {
+                eligibleWordFound = false;
+            } else {
+            // If the chosen word is greater than 16 characters, nothing happens
+            // and the loop repeats.
+            }
+        }
+        // Sets the running condition to true so that if the game is stopped
+        // and started again, the loop will run.
+        eligibleWordFound = true;
+    }
+    // This method is called whenever a key is pressed.
+    // The input is a letter a-z.
+    public void userGuess(char input) {
+        /* Checks every letter of the answer and compares it to the input.
+         * If they match, the display char string is updated to display that letter,
+         * while the rest of the string is either previously guessed letters or
+         * underscores. 
+         */
         for (int i = 0; i < answer.length(); i++) {
             if (Character.toLowerCase(answer.charAt(i)) == Character.toLowerCase(input)) {
                 display[i] = input;
             }
         }
+        // Updates the display text with the new display. Note: This will
+        // run even if no correct letters were guessed.
         updateDisplayText(display);
+        // Increments the counter in the top left of the screen to indicate a guess.
         incrementGuessCounter();
+        // Updates the corresponding label.
         gui.setGuessCounterLabel(guessCounter + " tries");
     }
     
@@ -82,7 +95,6 @@ public class HangmanController {
         gui.setDisplayText(updateDisplayText(display));
     }
     
-
     public String updateDisplayText(char[] input) {
         char[] constructedInput = new char[input.length * 2];
 
@@ -95,20 +107,7 @@ public class HangmanController {
         return text;
     }    
     
-    public char[] getDisplayText() {
-        return display;
-    }
-    public String getAnswer() {
-        return answer;
-    }
-    public int getGuessCounter() {
-        return guessCounter;
-    }
-    public void setGuessCounter(int input) {
-        guessCounter = input;
-    }
     public void incrementGuessCounter() {
         guessCounter += 1;
     }
-    
 }
